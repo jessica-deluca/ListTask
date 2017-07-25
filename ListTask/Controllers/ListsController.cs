@@ -50,6 +50,7 @@ namespace ListTask.Controllers
         {
             if (ModelState.IsValid)
             {
+                list.ListCreateDate = DateTime.Now;
                 db.Lists.Add(list);
                 db.SaveChanges();
                 return RedirectToAction("Index");
