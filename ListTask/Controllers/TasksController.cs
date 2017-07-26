@@ -21,13 +21,19 @@ namespace ListTask.Controllers
             return View(tasks.ToList());
         }
 
-        //CREATE NEW PAGE
+        //CREATE OVERDUES PARTIAL VIEW
         public ActionResult Overdues()
         {
             var tasks = db.Tasks.Include(t => t.List);
             return View(tasks.ToList());
         }
 
+        //CREATE COMPLETED TAKS PARTIAL VIEW
+        public ActionResult CompletedTasks()
+        {
+            var tasks = db.Tasks.Include(t => t.List);
+            return View(tasks.ToList());
+        }
 
         // GET: Tasks/Details/5
         public ActionResult Details(int? id)
@@ -49,6 +55,33 @@ namespace ListTask.Controllers
         {
             ViewBag.ListID = new SelectList(db.Lists, "ListID", "ListTitle");
             return View();
+        }
+
+        // TOGGLE
+        public ActionResult ToggleDone(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Task task = db.Tasks.Find(id);
+            if (task == null)
+            {
+                return HttpNotFound();
+            }
+            if (task.TaskIsDone)
+            {
+                task.TaskIsDone = false;
+            }
+            else
+            {
+                task.TaskIsDone = true;
+            }
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+
         }
 
         // POST: Tasks/Create

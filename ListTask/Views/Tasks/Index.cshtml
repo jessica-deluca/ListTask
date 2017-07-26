@@ -31,26 +31,44 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.List.ListTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskIsDone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TaskDueDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TaskID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TaskID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TaskID })
-        </td>
-    </tr>
-}
+@foreach (var item in Model)
+{
+    if (item.TaskIsDone == false)
+    {
+        <tr>
+            <td>
 
+                <a href="@Url.Action("ToggleDone", new { id = item.TaskID })">
+                    @if (item.TaskIsDone)
+                    {
+                        <span class="glyphicon glyphicon-check"></span>
+                    }
+                    else
+                    {
+                        <span class="glyphicon glyphicon-unchecked"></span>
+                    }
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.List.ListTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskDueDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.TaskID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.TaskID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.TaskID })
+            </td>
+        </tr>
+    }
+}
 </table>
+<hr />
+<h2>Completed Tasks</h2>
+@{
+    Html.RenderPartial("CompletedTasks");
+}

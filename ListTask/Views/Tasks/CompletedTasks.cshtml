@@ -3,13 +3,13 @@
 <table>
     @foreach (var item in Model)
     {
-        if (item.TaskDueDate < DateTime.Now && item.TaskIsDone == false)
+        if (item.TaskIsDone == true)
         {
             <tr>
                 <td>
                     <a href="@Url.Action("ToggleDone", new { id=item.TaskID })">
                         @if (item.TaskIsDone)
-                    {
+                        {
                             <span class="glyphicon glyphicon-check"></span>
                         }
                         else
